@@ -1,0 +1,7 @@
+{
+    "name": "text-simplifier",
+    "dependencies": {
+        "express": "*",
+        "body-parser": "*"
+    }
+}
