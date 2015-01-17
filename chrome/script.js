@@ -89,3 +89,9 @@
 
     window.addEventListener('load', startWalking);
 }());
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.data == "getPageContents") {
+        sendResponse({"data": "bullshit"});
+    }
+});
