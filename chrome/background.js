@@ -22,30 +22,35 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 function getPageContents(cb) {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {data: "getPageContents"}, function(response) {
-            console.log(response);
-
+        chrome.tabs.sendMessage(tabs[0].id, {type: "get"}, function(response) {
             cb(response);
         });
     });
 }
 
 function sendContentsToServer(data) {
-    vaar xmlhttp = null;
+    var xmlHttp = null;
 
     function processRequest() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
             if (xmlHttp.responseText == "Not found") {
                 alert("Oops. No server found.");
             } else {
-                console.log(xmlhttp.responseText);
+                setPageContents(xmlHttp.responseText);
             }
         }
     }
-
     xmlHttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = processRequest;
+    xmlHttp.onreadystatechange = processRequest;
     xmlHttp.open("POST", "http://localhost:5000", false);
     xmlHttp.send({ "html": data });
     return xmlHttp.responseText;
+}
+
+function setPageContents(text) {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {type: "set", data: text}, function(res) {
+            console.log(res);
+        });
+    });
 }
