@@ -14,7 +14,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
         isOn[tab.id] = true;
         //get page contents
         getPageContents(function(res) {
-            console.log(res.data);
+            sendContentsToServer(res.data);
         })
     }
 });
@@ -23,7 +23,29 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 function getPageContents(cb) {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {data: "getPageContents"}, function(response) {
+            console.log(response);
+
             cb(response);
         });
     });
+}
+
+function sendContentsToServer(data) {
+    vaar xmlhttp = null;
+
+    function processRequest() {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            if (xmlHttp.responseText == "Not found") {
+                alert("Oops. No server found.");
+            } else {
+                console.log(xmlhttp.responseText);
+            }
+        }
+    }
+
+    xmlHttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = processRequest;
+    xmlHttp.open("POST", "http://localhost:5000", false);
+    xmlHttp.send({ "html": data });
+    return xmlHttp.responseText;
 }

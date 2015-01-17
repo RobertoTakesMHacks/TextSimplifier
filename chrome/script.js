@@ -1,4 +1,4 @@
-(function() {
+/*(function() {
     // importing word files
     var commonPhrases;
     var commonPhrasesKeys;
@@ -40,7 +40,7 @@
 
 
 
-    /*chrome.tabs.executeScript( {
+    chrome.tabs.executeScript( {
         code: 'window.getSelection().toString();'
     }, function(selection) {
 
@@ -65,10 +65,9 @@
             }
             x.send('text=' + selection);
         });
-    });*/
+    });
 
-
-    /*function parseSelection(selection, cb) {
+    function parseSelection(selection, cb) {
         var keys = Object.keys(phrases);
         selection = String(selection); //DO NOT ASK WHY.
 
@@ -81,7 +80,7 @@
         }
 
         cb(selection);
-    }*/
+    }
 
     function startWalking() {
         walk(document.body);
@@ -89,9 +88,11 @@
 
     window.addEventListener('load', startWalking);
 }());
+*/
+
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.data == "getPageContents") {
-        sendResponse({"data": "bullshit"});
+        sendResponse({"data": document.body.innerHTML});
     }
 });
