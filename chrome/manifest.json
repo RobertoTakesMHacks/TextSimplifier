@@ -3,10 +3,16 @@
 
     "name": "Text simplifier",
     "description": "This extension displays a simplified version of the highlighted text",
+    "icons": {
+        "128": "Logo.png"
+    },
     "version": "1.0",
 
     "browser_action": {
-        "default_icon": "icon.png",
+        "default_icon": {
+            "19": "action.png",
+            "38": "action@2x.png"
+        },
         "default_popup": "popup.html"
     },
     "content_scripts": [
