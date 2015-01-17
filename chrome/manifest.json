@@ -12,14 +12,13 @@
         "default_icon": {
             "19": "action.png",
             "38": "action@2x.png"
-        },
-        "default_popup": "popup.html"
+        }
     },
     "content_scripts": [
         {
             "matches": ["*://*/*"],
-            "js": ["commonphrases.json", "commonphraseskeys.json", "commonstemwords.json", "commonwords.json"],
-            "run_at": "document_start"
+            "js": ["script.js"],
+            "run_at": "document_end"
         }
     ],
     "permissions": [

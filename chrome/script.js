@@ -1,4 +1,44 @@
-chrome.tabs.executeScript( {
+// importing word files
+var commonPhrases;
+var commonPhrasesKeys;
+var commonStemWords;
+var commonWords;
+
+walk(document.body);
+
+function walk(node) {
+    var child, next;
+
+    switch ( node.nodeType ) {
+        case 1:
+        case 9:
+        case 11:
+        child = node.firstChild;
+        while ( child ) {
+            next = child.nextSibling;
+            walk(child);
+            child = next;
+        }
+        break;
+
+        case 3:
+        handleText(node);
+        break;
+    }
+}
+
+function handleText(textNode) {
+    var t = textNode.nodeValue;
+
+    t.replace(/clouds/g, "butts");
+
+    textNode.nodeValue = t;
+}
+
+
+
+
+/*chrome.tabs.executeScript( {
     code: 'window.getSelection().toString();'
 }, function(selection) {
 
@@ -23,7 +63,7 @@ chrome.tabs.executeScript( {
         }
         x.send('text=' + selection);
     });
-});
+});*/
 
 
 function parseSelection(selection, cb) {
