@@ -37,16 +37,25 @@ def replace_uncommon_words(text): #FIXME DOWNCASES AND REMOVES PUNCTUATION
             synsets = wn.synsets(word)
             word_to_use = word
             how_common = 20000
+            removable = False
             for synset in synsets:
-                synonym = synset.name().split('.')[0]
+                split_synset = synset.name().split('.')
+                synonym = split_synset[0]
+                pos = split_synset[1]
+                if pos == 's' or pos == 'r' or pos == 'a':
+                    removable = True
+                print synonym
+                print pos
                 stemmed_syn = porterStemmer.stem(synonym)
                 if stemmed_syn in common_stem_words:
                     index = common_stem_words.index(stemmed_syn)
                     if index < how_common:
                         how_common = index
                         word_to_use = synonym
-
-            newText += word_to_use + ' '
+            if word_to_use == word and removable:
+                print 'removing ' + word
+            else:
+                newText += word_to_use + ' '
     return newText
 
 
