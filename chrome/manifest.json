@@ -12,7 +12,8 @@
         "default_icon": {
             "19": "action.png",
             "38": "action@2x.png"
-        }
+        },
+        "persistent": true
     },
     "background":{
         "scripts": ["background.js"]
