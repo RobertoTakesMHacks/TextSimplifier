@@ -27,12 +27,22 @@ def replace_uncommon_words(text): #FIXME DOWNCASES AND REMOVES PUNCTUATION
     porterStemmer = nltk.stem.porter.PorterStemmer()
     words = text.split(' ')
     for word in words:
-        word = word.replace('.', '')
-        word = word.replace(',', '')
-        word = word.lower()
+        punc = ''
+        istitle = False
+        if '.' in word:
+            punc = '.'
+            word = word.replace('.', '')
+        elif ',' in word:
+            punc = ','
+            word = word.replace(',', '')
+        if word.istitle():
+            istitle = True
+            word = word.lower()
         stemmed = porterStemmer.stem(word)
         if stemmed in common_stem_words:
-            newText += word + ' '
+            if istitle:
+                word = word.title()
+            newText += word + punc + ' '
         else:
             synsets = wn.synsets(word)
             word_to_use = word
@@ -55,8 +65,14 @@ def replace_uncommon_words(text): #FIXME DOWNCASES AND REMOVES PUNCTUATION
             if word_to_use == word and removable:
                 print 'removing ' + word
             else:
-                newText += word_to_use + ' '
+                if istitle:
+                    word_to_use = word_to_use.title()
+                print punc
+                newText += word_to_use + punc + ' '
     return newText
+
+#TODO if there is a list of three or more items (eg. something, something else, and something else)
+# replace it with
 
 
 print replace_uncommon_words(paragraph)
