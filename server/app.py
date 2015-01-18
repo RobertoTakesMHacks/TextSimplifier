@@ -13,10 +13,12 @@ def handle_data():
     soup = BeautifulSoup(html)
     paragraphs = soup.find_all('p')
     new_text = ''
+    old_text = ''
     for paragraph in paragraphs:
-        new_text += replace_common_phrases(paragraph.getText()) + '<br><br>'
-    print new_text
-    return new_text
+        para_text = paragraph.getText()
+        old_text += para_text + '<br><br>'
+        new_text += replace_common_phrases(para_text) + '<br><br>'
+    return '{"text":"' + new_text + '","original":"' + old_text + '"}'
 
 if __name__ == '__main__':
     app.run()
