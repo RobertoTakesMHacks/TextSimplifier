@@ -1,6 +1,7 @@
 import json
 import nltk
 from nltk.corpus import wordnet as wn
+import grammar
 
 common_phrases_keys_json = open('words/commonphraseskeys.json')
 common_phrases_json = open('words/commonphrases.json')
@@ -71,6 +72,23 @@ def replace_uncommon_words(text):
 
 #TODO if there is a list of three or more items (eg. something, something else, and something else)
 # replace it with
+
+def replace_complex_sections(text):
+    parsed = grammar.parse(text) # result is an array of tuples
+    navigate(parsed)
+
+def navigate(treebank):
+    for child in treebank:
+        corpus = treebank.read(f)
+        for sentenceToken in corpus['SENTS'] :
+          for wt in sentenceToken['WORDS'] :
+              pos = wt['POS']
+
+              print pos + ": " +  wt
+
+    return
+
+replace_complex_sections("The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian.")
 
 def replace_common_phrases(text):
     new_text = replace_phrases(text)
