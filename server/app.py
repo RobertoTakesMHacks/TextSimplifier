@@ -20,7 +20,7 @@ def handle_data():
         para_text = re.sub(r' \(.*?\)|\[.*?\]', '', para_text)
         old_text += para_text + '<br><br>'
         new_text += replace_common_phrases(para_text) + '<br><br>'
-    return '{"text":"' + new_text + '","original":"' + old_text + '"}'
+    return '<strong>New Text</strong><br><br>' + new_text + '<br><br><strong>Original Text</strong><br><br>' + old_text
 
 if __name__ == '__main__':
     app.run()

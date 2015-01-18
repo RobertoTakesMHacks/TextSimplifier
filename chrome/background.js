@@ -49,12 +49,8 @@ function sendContentsToServer(data) {
 }
 
 function setPageContents(texts) {
-    var texts = JSON.parse(texts);
-    var text = texts.text;
-    var originalData = texts.original;
-
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {type: "set", data: text, originalData: originalData}, function(res) {
+        chrome.tabs.sendMessage(tabs[0].id, {type: "set", data: texts}, function(res) {
             console.log(res);
         });
     });
