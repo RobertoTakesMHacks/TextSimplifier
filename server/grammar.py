@@ -37,6 +37,8 @@ def parse(text):
     tagged = st.tag(tokens)
     entities = nltk.ne_chunk(tagged)
     resultTree = nltk.RegexpParser(grammar).parse(entities)
+    #r = resultTree.get_descendants()
+    #print r
 
     return resultTree
 
