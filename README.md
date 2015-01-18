@@ -30,3 +30,39 @@ This tool also has a method for finding the logical structure of a body of text 
 * In Chrome, go to a page you want to simplify. We have tested primarily with Wikipedia pages
 * Click the extension icon and wait a little bit after it's highlighted for the page text to be replaced by simpler text
 * You can compare the readability of the two blocks of text returned (our simplified version and the original version) at [Readability-Score.com](https://readability-score.com/)
+
+##Examples
+###Readability changes of different articles:
+"Readability" below refers to the Flesch-Kincaid Reading Ease score. A higher number means it is more readable by the formula detailed [here](http://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests#Flesch_Reading_Ease).
+
+This does in any way mean our application 100% works. Sometimes information can be lost or changed due to the fallibility of our method.
+
+| Link | Readability before | Readability after |
+| ---- | ------------------ | ----------------- |
+| http://en.wikipedia.org/wiki/Computer_science | 22.6 | 25.7 |
+| http://en.wikipedia.org/wiki/Linguistics | 31.7 | 36.8 |
+| http://en.wikipedia.org/wiki/Unicorn | 49.3 | 50.5 |
+
+These are relatively small changes in scores, because most of what we return is the same as the original. This is in large part due to how many words we are using to determine whether words are "too difficult". We're currently using the 10k most common words in English, reduced to about 7k common word stems. If this is reduced, the readability score improves, but once again, we run a higher risk of losing information.
+
+###Readability changes based on number of "non-difficult" words, using the article at http://en.wikipedia.org/wiki/Unicorn:
+
+Once again, even though the readability score improves, the article does not necessarily have all of its meaning. In fact, using something like 1000 words below makes the article unreadable. It is a tradeoff that we haven't completely experimented with yet.
+
+| Number of "non-difficult" stem words | Readability after |
+| --- | --- |
+| 1000 | 57.4 |
+| 2000 | 54.8 |
+| 3000 | 52.8 |
+| 5000 | 51.6 |
+| ~6800 | 50.5 |
+
+As an example of what our extension changes, here is a sentence before and after going through our program:
+
+Before
+> Phonetics studies acoustic and articulatory properties of the production and perception of speech sounds and non-speech sounds.
+
+After
+>Phonetics studies and properties of the production and perception of speech sounds and non-speech sounds.
+
+Note that "acoustic" and "articulatory" are removed because they are uncommon words. Also note that although these are removed, the sentence still makes sense and the difference in meaning is negligible. Of course, by not analyzing grammatical structure in this version, the "and" was not removed, but this extension is a prototype, and these are things that can be fixed in the future.
