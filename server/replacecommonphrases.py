@@ -3,6 +3,7 @@ import nltk
 from nltk.corpus import wordnet as wn
 import grammar
 import re
+import string
 
 common_phrases_keys_json = open('words/commonphraseskeys.json')
 common_phrases_json = open('words/commonphrases.json')
@@ -22,7 +23,7 @@ prepositionList = ["aboard","about","above","across","after","against","along","
 
 
 def replace_phrases(text):
-    print 'replacing phrases'
+    # print 'replacing phrases'
     newText = text
     for key in common_phrases_keys :
         if key in newText:
@@ -84,6 +85,23 @@ def replace_complex_sections(text):
     parsed = grammar.parse(text) # result is a treebank
     return navigate(parsed)
 
+def shouldIDelete(child): #takes in a child of tree
+    # determines whether or not to delete child
+    porterStemmer = nltk.stem.porter.PorterStemmer()
+    for word, pos in child.pos():
+        stemmed_word = porterStemmer.stem(word)
+        for c in string.punctuation:
+            stemmed_word = stemmed_word.replace(c,"")
+        # if nltk.pos_tag(word_tokenize(stemmed_word))[0][1] != "JJ" or nltk.pos_tag(word_tokenize(stemmed_word))[0][1] != "RB":
+        #     return False
+        if pos != "JJ" and pos != "RB":
+            return False
+        index = common_stem_words.index(stemmed_word)
+        if index > 4000:
+            return False
+    return True
+
+
 def navigate(treebank): #result is a string
     result_tree = nltk.tree.Tree("S", [])
 
@@ -100,7 +118,7 @@ def navigate(treebank): #result is a string
             for preposition in prepositionList:
                 shouldContinue = False
                 if (preposition + "/") in str(child)[i:(i+15)]:
-                    shouldContinue = True
+                    shouldContinue = shouldIDelete(child)
                     break
 
             if shouldContinue:
@@ -116,7 +134,7 @@ def navigate(treebank): #result is a string
     result_words = ""
     for token in words:
         result_words += token[0][0] + " "
-        
+
     result_words = re.sub(r' (\W|\D) ', r'\1 ', result_words)
 
     result = result_words.encode('latin_1')
@@ -126,5 +144,6 @@ print replace_complex_sections("The unicorn is a legendary animal that has been 
 
 def replace_common_phrases(text):
     new_text = replace_phrases(text)
-    new_text = replace_uncommon_words(text)
+    new_text = replace_uncommon_words(new_text)
+    new_text = replace_complex_sections(new_text)
     return new_text
