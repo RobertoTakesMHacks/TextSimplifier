@@ -13,8 +13,6 @@ import nltk
 # NPX: list OR noun phrase involving participals used as adjectives
 # VP: verb phrase - contains a determinant or adverbs with verbs
 # VPX: deals with verb phrases such as "be certain" or "be sure"
-# PPX: prepositional phrases, etc.
-# OTH: deals with phrases that start with "or," "and," etc.
 # see http://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html and http://www.nltk.org/_modules/nltk/tag/stanford.html#POSTagger for more information
 
 # |(<ORGANIZATION>|<PERSON>|<LOCATION>|<DATE>|<TIME>|<MONEY>|<PERCENT>|<FACILITY>|<GPE>))+
@@ -25,9 +23,7 @@ grammar = r"""
         {<IN>?<PRP>+}
         {<CD>?(<NN>|<NNS>|<NNP>|<NNPS>|<NE>)*}
     VP: {<MD>?<WDT>?(<JJ>|<JJR>|<JJS>|<VBG>)*(<RB>|<RBR>|<RBS>)*<PRP\$>*(<VB>|<VBD>|<VBG>|<VBN>|<VBP>|<VBZ>)+(<JJ>|<JJR>|<JJS>|<VBG>)*<IN>?}
-    VPX: {(<MD><RB>)?(<VB>)+}
-    PPX: {}
-    OTH: {}
+    VPX: {(<MD><RB>)?(<VP>)+}
     """
 
 def parse(text):
