@@ -3,6 +3,7 @@ from replacecommonphrases import replace_common_phrases
 from urllib import urlopen
 app = Flask(__name__)
 import nltk
+import re
 from bs4 import BeautifulSoup
 
 paragraph = "The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian."
@@ -16,6 +17,7 @@ def handle_data():
     old_text = ''
     for paragraph in paragraphs:
         para_text = paragraph.getText()
+        para_text = re.sub(r' \(.*?\)|\[.*?\]', '', para_text)
         old_text += para_text + '<br><br>'
         new_text += replace_common_phrases(para_text) + '<br><br>'
     return '{"text":"' + new_text + '","original":"' + old_text + '"}'
