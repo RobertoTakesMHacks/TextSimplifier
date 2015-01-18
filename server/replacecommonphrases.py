@@ -85,23 +85,6 @@ def replace_complex_sections(text):
     parsed = grammar.parse(text) # result is a treebank
     return navigate(parsed)
 
-<<<<<<< HEAD
-# def shouldIDelete(child): #takes in a child of tree
-#     # determines whether or not to delete child
-#     porterStemmer = nltk.stem.porter.PorterStemmer()
-#     for word, pos in child.pos():
-#         stemmed_word = porterStemmer.stem(word)
-#         for c in string.punctuation:
-#             stemmed_word = stemmed_word.replace(c,"")
-#         # if nltk.pos_tag(word_tokenize(stemmed_word))[0][1] != "JJ" or nltk.pos_tag(word_tokenize(stemmed_word))[0][1] != "RB":
-#         #     return False
-#         if pos != "JJ" and pos != "RB":
-#             return False
-#         index = common_stem_words.index(stemmed_word)
-#         if index > 4000:
-#             return False
-#     return True
-=======
 def shouldIDelete(child): #takes in a child of tree
     # determines whether or not to delete child
     porterStemmer = nltk.stem.porter.PorterStemmer()
@@ -117,7 +100,6 @@ def shouldIDelete(child): #takes in a child of tree
         if index > 4000:
             return False
     return True
->>>>>>> FETCH_HEAD
 
 
 def navigate(treebank): #result is a string
@@ -136,12 +118,7 @@ def navigate(treebank): #result is a string
             for preposition in prepositionList:
                 shouldContinue = False
                 if (preposition + "/") in str(child)[i:(i+15)]:
-<<<<<<< HEAD
-                    # shouldContinue = shouldIDelete(child)
                     shouldContinue = True
-=======
-                    shouldContinue = shouldIDelete(child)
->>>>>>> FETCH_HEAD
                     break
 
             if shouldContinue:
@@ -158,28 +135,15 @@ def navigate(treebank): #result is a string
     for token in words:
         result_words += token[0][0] + " "
 
-<<<<<<< HEAD
     result_words = re.sub(r' (\W) ', r'\1 ', result_words)
-
-    result = result_words.encode()
-    return result
-
-print replace_complex_sections("The a unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian.")
-=======
-    result_words = re.sub(r' (\W|\D) ', r'\1 ', result_words)
 
     result = result_words.encode('latin_1')
     return result
 
-# print replace_complex_sections("The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian.")
->>>>>>> FETCH_HEAD
+print replace_complex_sections("The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian.")
 
 def replace_common_phrases(text):
     new_text = replace_phrases(text)
     new_text = replace_uncommon_words(new_text)
-<<<<<<< HEAD
     new_text = replace_complex_sections(new_text)
-=======
-    # new_text = replace_complex_sections(new_text)
->>>>>>> FETCH_HEAD
     return new_text
