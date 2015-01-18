@@ -47,10 +47,11 @@ function sendContentsToServer(data) {
     return xmlHttp.responseText;
 }
 
-function setPageContents(text) {
+function setPageContents(texts) {
+    var texts = JSON.parse(texts);
+    var text = texts.text;
+    var original = texts.original;
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {type: "set", data: text}, function(res) {
-            console.log(res);
-        });
+        chrome.tabs.sendMessage(tabs[0].id, {type: "set", data: text, original: originalData}, function(res) {});
     });
 }
