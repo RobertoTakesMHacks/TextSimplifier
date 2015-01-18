@@ -16,9 +16,6 @@
             "38": "off@2x.png"
         }
     },
-    "background":{
-        "scripts": ["background.js"]
-    },
     "content_scripts": [
         {
             "matches": ["*://*/*"],
@@ -26,6 +23,9 @@
             "run_at": "document_end"
         }
     ],
+    "background":{
+        "scripts": ["background.js"]
+    },
     "permissions": [
         "activeTab",
         "https://ajax.googleapis.com/"
