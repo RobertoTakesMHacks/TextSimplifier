@@ -15,6 +15,7 @@ import nltk
 # VPX: deals with verb phrases such as "be certain" or "be sure"
 # see http://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html and http://www.nltk.org/_modules/nltk/tag/stanford.html#POSTagger for more information
 
+# VPX: {(<MD><RB>)?(<VP>)+}
 # |(<ORGANIZATION>|<PERSON>|<LOCATION>|<DATE>|<TIME>|<MONEY>|<PERCENT>|<FACILITY>|<GPE>))+
 grammar = r"""
     S: {<,>|<.>}
@@ -23,7 +24,6 @@ grammar = r"""
         {<IN>?<PRP>+}
         {<CD>?(<NN>|<NNS>|<NNP>|<NNPS>|<NE>)*}
     VP: {<MD>?<WDT>?(<JJ>|<JJR>|<JJS>|<VBG>)*(<RB>|<RBR>|<RBS>)*<PRP\$>*(<VB>|<VBD>|<VBG>|<VBN>|<VBP>|<VBZ>)+(<JJ>|<JJR>|<JJS>|<VBG>)*<IN>?}
-    VPX: {(<MD><RB>)?(<VP>)+}
     """
 
 def parse(text):
