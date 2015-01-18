@@ -2,6 +2,8 @@ import json
 import nltk
 from nltk.corpus import wordnet as wn
 import grammar
+import re
+import string
 
 common_phrases_keys_json = open('words/commonphraseskeys.json')
 common_phrases_json = open('words/commonphrases.json')
@@ -21,7 +23,7 @@ prepositionList = ["aboard","about","above","across","after","against","along","
 
 
 def replace_phrases(text):
-    print 'replacing phrases'
+    # print 'replacing phrases'
     newText = text
     for key in common_phrases_keys :
         if key in newText:
@@ -85,10 +87,28 @@ def replace_complex_sections(text):
     parsed = grammar.parse(text) # result is a treebank
     return navigate(parsed)
 
-def navigate(treebank):
-    result = ""
+def shouldIDelete(child): #takes in a child of tree
+    # determines whether or not to delete child
+    porterStemmer = nltk.stem.porter.PorterStemmer()
+    for word, pos in child.pos():
+        stemmed_word = porterStemmer.stem(word)
+        for c in string.punctuation:
+            stemmed_word = stemmed_word.replace(c,"")
+        # if nltk.pos_tag(word_tokenize(stemmed_word))[0][1] != "JJ" or nltk.pos_tag(word_tokenize(stemmed_word))[0][1] != "RB":
+        #     return False
+        if pos != "JJ" and pos != "RB":
+            return False
+        index = common_stem_words.index(stemmed_word)
+        if index > 4000:
+            return False
+    return True
+
+
+def navigate(treebank): #result is a string
+    result_tree = nltk.tree.Tree("S", [])
 
     for child in treebank:
+
         i = 3
         if str(child)[:3] == "(NP":
             while (str(child)[i] == " ") or (str(child)[i] == "\n") or (str(child)[i:(i+8)] == "(S ,/,)"):
@@ -100,19 +120,32 @@ def navigate(treebank):
             for preposition in prepositionList:
                 shouldContinue = False
                 if (preposition + "/") in str(child)[i:(i+15)]:
-                    shouldContinue = True
+                    shouldContinue = shouldIDelete(child)
                     break
 
             if shouldContinue:
                 continue
 
-        result += (str(child)) + " "
+        result_tree.append(child) # result is a treebank
 
+    for subtree in result_tree.subtrees():
+        #print dir(subtree) # tells you properties on object
+        pass
+
+    words = result_tree.pos() # sequence of unicode words
+    result_words = ""
+    for token in words:
+        result_words += token[0][0] + " "
+
+    result_words = re.sub(r' (\W|\D) ', r'\1 ', result_words)
+
+    result = result_words.encode('latin_1')
     return result
 
 print replace_complex_sections("The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian.")
 
 def replace_common_phrases(text):
     new_text = replace_phrases(text)
-    new_text = replace_uncommon_words(text)
+    new_text = replace_uncommon_words(new_text)
+    # new_text = replace_complex_sections(new_text)
     return new_text
