@@ -1,6 +1,6 @@
 import nltk
 
-paragraph = "The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian."
+#paragraph = "The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian."
 #paragraph = "If it can't match the rest of the pattern, \{(12 backtracks,)] each time discarding one of the matches until it can either match the entire pattern or be certain that it cannot get a match."
 #paragraph = "You can iterate pretty much anything in python using the for loop construct, for example, open('file.txt') returns a file object (and opens the file), iterating over it iterates over lines in that file \t for line in open(filename): # do something with line If that seems like magic, well it kinda is, but the idea behind it is really simple."
 #paragraph = "Greenland is the world's largest island with an area of over 2.1 million km squared, while Australia, the world's smallest continent has an area of 7.6 million km squared, but there is no standard of size which distinguishes islands from continents, or from islets."
@@ -21,9 +21,11 @@ paragraph = "The unicorn is a legendary animal that has been described since ant
 grammar = r"""
     S: {<,>|<.>}
     NE: {<ORGANIZATION>|<PERSON>|<LOCATION>|<DATE>|<TIME>|<MONEY>|<PERCENT>|<FACILITY>|<GPE>}
-    NP: {<IN>?<CC>?(<DT>|<PDT>)?<PRP\$>*(<JJ>|<JJR>|<JJS>|<VBG>)*<S>*(<JJ>|<JJR>|<JJS>|<VBG>)*<S>*(<JJ>|<JJR>|<JJS>|<VBG>)*<S>*(<NN>|<NNS>|<NNP>|<NNPS>|<NE>)+}
-    VP: {<CC>?<WDT>?(<JJ>|<JJR>|<JJS>|<VBG>)*(<RB>|<RBR>|<RBS>)*<PRP\$>*(<VB>|<VBD>|<VBG>|<VBN>|<VBP>|<VBZ>)+}
-    VPX: {}
+    NP: {(<DT>|<PDT>)?<IN>*<CC>?(<DT>|<PDT>)?<PRP\$>*<CD>*(<RB>|<RBR>|<RBS>|<VBG>)*(<JJ>|<JJR>|<JJS>|<VBG>)*<S>*(<JJ>|<JJR>|<JJS>|<VBG>)*<S>*(<JJ>|<JJR>|<JJS>|<VBG>)*<S>*(<NN>|<NNS>|<NNP>|<NNPS>|<NE>)+}
+        {<IN>?<PRP>+}
+        {<CD>?(<NN>|<NNS>|<NNP>|<NNPS>|<NE>)*}
+    VP: {<MD>?<WDT>?(<JJ>|<JJR>|<JJS>|<VBG>)*(<RB>|<RBR>|<RBS>)*<PRP\$>*(<VB>|<VBD>|<VBG>|<VBN>|<VBP>|<VBZ>)+(<JJ>|<JJR>|<JJS>|<VBG>)*<IN>?}
+    VPX: {(<MD><RB>)?(<VB>)+}
     PPX: {}
     OTH: {}
     """
@@ -41,4 +43,4 @@ def parse(text):
 
     return resultTree
 
-parse(paragraph).draw()
+#parse(paragraph).draw()
