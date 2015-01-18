@@ -13,8 +13,8 @@ common_phrases_keys_json.close()
 common_phrases_json.close()
 common_stem_words_json.close()
 
-paragraph = "The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian."
 def replace_phrases(text):
+    print 'replacing phrases'
     newText = text
     for key in common_phrases_keys :
         if key in newText:
@@ -22,7 +22,8 @@ def replace_phrases(text):
     return newText
 
 
-def replace_uncommon_words(text): #FIXME DOWNCASES AND REMOVES PUNCTUATION
+def replace_uncommon_words(text):
+    print 'replacing uncommon words'
     newText = ''
     porterStemmer = nltk.stem.porter.PorterStemmer()
     words = text.split(' ')
@@ -54,8 +55,6 @@ def replace_uncommon_words(text): #FIXME DOWNCASES AND REMOVES PUNCTUATION
                 pos = split_synset[1]
                 if pos == 's' or pos == 'r' or pos == 'a':
                     removable = True
-                print synonym
-                print pos
                 stemmed_syn = porterStemmer.stem(synonym)
                 if stemmed_syn in common_stem_words:
                     index = common_stem_words.index(stemmed_syn)
@@ -67,13 +66,13 @@ def replace_uncommon_words(text): #FIXME DOWNCASES AND REMOVES PUNCTUATION
             else:
                 if istitle:
                     word_to_use = word_to_use.title()
-                print punc
                 newText += word_to_use + punc + ' '
     return newText
 
 #TODO if there is a list of three or more items (eg. something, something else, and something else)
 # replace it with
 
-
-print replace_uncommon_words(paragraph)
-print paragraph
+def replace_common_phrases(text):
+    new_text = replace_phrases(text)
+    new_text = replace_uncommon_words(text)
+    return new_text
