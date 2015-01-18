@@ -2,6 +2,7 @@ import json
 import nltk
 from nltk.corpus import wordnet as wn
 import grammar
+import re
 
 common_phrases_keys_json = open('words/commonphraseskeys.json')
 common_phrases_json = open('words/commonphrases.json')
@@ -83,10 +84,11 @@ def replace_complex_sections(text):
     parsed = grammar.parse(text) # result is a treebank
     return navigate(parsed)
 
-def navigate(treebank):
-    result = ""
+def navigate(treebank): #result is a string
+    result_tree = nltk.tree.Tree("S", [])
 
     for child in treebank:
+
         i = 3
         if str(child)[:3] == "(NP":
             while (str(child)[i] == " ") or (str(child)[i] == "\n") or (str(child)[i:(i+8)] == "(S ,/,)"):
@@ -104,8 +106,20 @@ def navigate(treebank):
             if shouldContinue:
                 continue
 
-        result += (str(child)) + " "
+        result_tree.append(child) # result is a treebank
 
+    for subtree in result_tree.subtrees():
+        #print dir(subtree) # tells you properties on object
+        pass
+
+    words = result_tree.pos() # sequence of unicode words
+    result_words = ""
+    for token in words:
+        result_words += token[0][0] + " "
+        
+    result_words = re.sub(r' (\W|\D) ', r'\1 ', result_words)
+
+    result = result_words.encode('latin_1')
     return result
 
 print replace_complex_sections("The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian.")
