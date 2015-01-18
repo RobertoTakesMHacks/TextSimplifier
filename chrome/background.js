@@ -43,7 +43,7 @@ function sendContentsToServer(data) {
     xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = processRequest;
     xmlHttp.open("POST", "http://localhost:5000", false);
-    xmlHttp.send({ "html": data });
+    xmlHttp.send(data)
     return xmlHttp.responseText;
 }
 
