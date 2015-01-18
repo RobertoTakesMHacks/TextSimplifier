@@ -14,6 +14,12 @@ common_phrases_keys_json.close()
 common_phrases_json.close()
 common_stem_words_json.close()
 
+# bad practice. I don't care anymore
+prepositionList = ["aboard","about","above","across","after","against","along","amid","among","anti","around","as","at","before","behind","below","beneath","beside","besides","between","beyond","but","by",
+"concerning","considering","despite","down","during","except","excepting","excluding","following","for","from","in","inside","into","like","minus","near","of","off","on","onto","opposite","outside","over","past",
+"per","plus","regarding","since","than","through","toward","towards","under","underneath","unlike","until","up","upon","versus","via","with","within","without"]
+
+
 def replace_phrases(text):
     print 'replacing phrases'
     newText = text
@@ -74,21 +80,35 @@ def replace_uncommon_words(text):
 # replace it with
 
 def replace_complex_sections(text):
-    parsed = grammar.parse(text) # result is an array of tuples
-    navigate(parsed)
+    parsed = grammar.parse(text) # result is a treebank
+    return navigate(parsed)
 
 def navigate(treebank):
+    result = ""
+
     for child in treebank:
-        corpus = treebank.read(f)
-        for sentenceToken in corpus['SENTS'] :
-          for wt in sentenceToken['WORDS'] :
-              pos = wt['POS']
+        i = 3
+        if str(child)[:3] == "(NP":
+            while (str(child)[i] == " ") or (str(child)[i] == "\n") or (str(child)[i:(i+8)] == "(S ,/,)"):
+                if (str(child)[i:(i+8)] == "(S ,/,)"):
+                    i += 8
+                else:
+                    i += 1
 
-              print pos + ": " +  wt
+            for preposition in prepositionList:
+                shouldContinue = False
+                if (preposition + "/") in str(child)[i:(i+15)]:
+                    shouldContinue = True
+                    break
 
-    return
+            if shouldContinue:
+                continue
 
-replace_complex_sections("The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian.")
+        result += (str(child)) + " "
+
+    return result
+
+print replace_complex_sections("The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian.")
 
 def replace_common_phrases(text):
     new_text = replace_phrases(text)
