@@ -13,24 +13,6 @@ The way this currently works is by using a list of english words ordered by freq
 
 This tool also has a method for finding the logical structure of a body of text using a tree and identifying prepositional phrases or sections of other patterns. This way, in the future, we can find logical chunks that can be removed or reworded for a much more flawproof way of simplifying. The problem now is efficiency, as navigating and manipulating the tree can be very slow.
 
-##Installation
-* Clone this repository
-* Go to [chrome://extensions](chrome://extensions) in Google Chrome
-* Check "Developer mode" in the upper right and then click "Load unpacked extension" in the upper left
-* Navigate to the [chrome](/chrome) folder of this repository then click "Select" in the popup window
-* Follow the steps [here](http://www.nltk.org/install.html) for installing NLTK, a python library we make heavy use of
-* Follow the steps [here](http://www.nltk.org/data.html) for installing the NLTK data. We selected the "all" option described there
-* Make sure [pip](https://pypi.python.org/pypi/pip) is installed on your machine
-* Go to the [server](/server) folder in the terminal
-* Run `pip install flask` and `pip install beautifulsoup4`. If either doesn't work, add `sudo` to the beginning of the command
-
-##Running
-* In the terminal, navigate to the [server](/server) folder of this repository
-* Run `python app.py`
-* In Chrome, go to a page you want to simplify. We have tested primarily with Wikipedia pages
-* Click the extension icon and wait a little bit after it's highlighted for the page text to be replaced by simpler text
-* You can compare the readability of the two blocks of text returned (our simplified version and the original version) at [Readability-Score.com](https://readability-score.com/)
-
 ##Examples
 ###Readability changes of different articles:
 "Readability" below refers to the Flesch-Kincaid Reading Ease score. A higher number means it is more readable by the formula detailed [here](http://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests#Flesch_Reading_Ease).
@@ -66,3 +48,21 @@ After
 >Phonetics studies and properties of the production and perception of speech sounds and non-speech sounds.
 
 Note that "acoustic" and "articulatory" are removed because they are uncommon words. Also note that although these are removed, the sentence still makes sense and the difference in meaning is negligible. Of course, by not analyzing grammatical structure in this version, the "and" was not removed, but this extension is a prototype, and these are things that can be fixed in the future.
+
+##Installation
+* Clone this repository
+* Go to [chrome://extensions](chrome://extensions) in Google Chrome
+* Check "Developer mode" in the upper right and then click "Load unpacked extension" in the upper left
+* Navigate to the [chrome](/chrome) folder of this repository then click "Select" in the popup window
+* Follow the steps [here](http://www.nltk.org/install.html) for installing NLTK, a python library we make heavy use of
+* Follow the steps [here](http://www.nltk.org/data.html) for installing the NLTK data. We selected the "all" option described there
+* Make sure [pip](https://pypi.python.org/pypi/pip) is installed on your machine
+* Go to the [server](/server) folder in the terminal
+* Run `pip install flask` and `pip install beautifulsoup4`. If either doesn't work, add `sudo` to the beginning of the command
+
+##Running
+* In the terminal, navigate to the [server](/server) folder of this repository
+* Run `python app.py`
+* In Chrome, go to a page you want to simplify. We have tested primarily with Wikipedia pages
+* Click the extension icon and wait a little bit after it's highlighted for the page text to be replaced by simpler text
+* You can compare the readability of the two blocks of text returned (our simplified version and the original version) at [Readability-Score.com](https://readability-score.com/)
