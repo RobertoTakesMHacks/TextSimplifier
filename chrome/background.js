@@ -15,16 +15,14 @@ chrome.browserAction.onClicked.addListener(function(tab) {
         //get page contents
         getPageContents(function(res) {
             sendContentsToServer(res.data);
-        })
+        });
     }
 });
 
 
 function getPageContents(cb) {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {type: "get"}, function(response) {
-            cb(response);
-        });
+        chrome.tabs.sendMessage(tabs[0].id, {type: "get"}, cb);
     });
 }
 
@@ -52,6 +50,6 @@ function setPageContents(texts) {
     var text = texts.text;
     var original = texts.original;
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {type: "set", data: text, original: originalData}, function(res) {});
+        chrome.tabs.sendMessage(tabs[0].id, {"type": "set", "data": text, "original": originalData}, function(res) {});
     });
 }

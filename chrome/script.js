@@ -1,12 +1,13 @@
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.type == "get") {
-        sendResponse({"data": document.body.innerHTML});
-    } else if (request.type == "set") {
+    if (request.type === "get") {
+        sendResponse({data: document.body.innerHTML});
+    } else if (request.type === "set") {
         var data = request.data;
         var originalData = request.originalData;
 
-        appendToPage(data, originalData);
-        sendResponse({"success": true});
+        // appendToPage(data, originalData);
+        document.body.innerHTML = data;
+        sendResponse({data: "success"});
     }
 });
 
@@ -17,8 +18,7 @@ function wordCount(text) {
 function sentenceCount(text) {
     return text.replace(/[^\.!?]/g, '').length || 1;
 }
-
-var function averageSyllablesPerWord(text, wordCount) {
+function averageSyllablesPerWord(text, wordCount) {
     var syllableCount = 0;
 
     text.split(/\s+/).forEach(function(word) {
@@ -27,6 +27,7 @@ var function averageSyllablesPerWord(text, wordCount) {
 
     // Prevent NaN...
     return (syllableCount||1) / (wordCount||1);
+    return 5;
 }
 
 function syllableCount(text) {
@@ -128,6 +129,7 @@ function syllableCount(text) {
     });
 
     return syllableCount || 1;
+    return 5;
 }
 
 function fleschScore(text) {
