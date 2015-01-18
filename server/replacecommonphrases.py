@@ -70,6 +70,8 @@ def replace_uncommon_words(text):
                         word_to_use = synonym
             if word_to_use == word and removable:
                 print 'removing ' + word
+            elif how_common > 1000 and removable and not istitle:
+                print 'removing ' + word
             else:
                 if istitle:
                     word_to_use = word_to_use.title()
