@@ -14,17 +14,18 @@ chrome.browserAction.onClicked.addListener(function(tab) {
         isOn[tab.id] = true;
         //get page contents
         getPageContents(function(res) {
-            sendContentsToServer(res.data);
-        })
+            //FOR SOME REASON IT REQUIRES THIS.. DONT ASK.
+            setTimeout(function() {
+                sendContentsToServer(res);
+            }, 100);
+        });
     }
 });
 
 
 function getPageContents(cb) {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {type: "get"}, function(response) {
-            cb(response);
-        });
+        chrome.tabs.sendMessage(tabs[0].id, {type: "get"}, cb);
     });
 }
 
@@ -33,7 +34,7 @@ function sendContentsToServer(data) {
 
     function processRequest() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-            if (xmlHttp.responseText == "Not found") {
+            if (xmlHttp.responseText === "Not found") {
                 alert("Oops. No server found.");
             } else {
                 setPageContents(xmlHttp.responseText);
@@ -43,13 +44,17 @@ function sendContentsToServer(data) {
     xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = processRequest;
     xmlHttp.open("POST", "http://localhost:5000", false);
-    xmlHttp.send(data)
+    xmlHttp.send(data);
     return xmlHttp.responseText;
 }
 
-function setPageContents(text) {
+function setPageContents(texts) {
+    var texts = JSON.parse(texts);
+    var text = texts.text;
+    var originalData = texts.original;
+
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {type: "set", data: text}, function(res) {
+        chrome.tabs.sendMessage(tabs[0].id, {type: "set", data: text, originalData: originalData}, function(res) {
             console.log(res);
         });
     });
