@@ -140,10 +140,10 @@ def navigate(treebank): #result is a string
     result = result_words.encode('latin_1')
     return result
 
-print replace_complex_sections("The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian.")
+# print replace_complex_sections("The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian.")
 
 def replace_common_phrases(text):
     new_text = replace_phrases(text)
     new_text = replace_uncommon_words(new_text)
-    new_text = replace_complex_sections(new_text)
+    # new_text = replace_complex_sections(new_text)
     return new_text
