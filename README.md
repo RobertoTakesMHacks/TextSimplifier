@@ -47,7 +47,7 @@ Before
 After
 >Phonetics studies and properties of the production and perception of speech sounds and non-speech sounds.
 
-Note that "acoustic" and "articulatory" are removed because they are uncommon words. Also note that although these are removed, the sentence still makes sense and the difference in meaning is negligible. Of course, by not analyzing grammatical structure in this version, the "and" was not removed, but this extension is a prototype, and these are things that can be fixed in the future.
+Note that "acoustic" and "articulatory" are removed because they are uncommon adjectives. Also note that although these are removed, the sentence still makes sense and the difference in meaning is negligible. Of course, by not analyzing grammatical structure in this version, the "and" was not removed, but this extension is a prototype, and these are things that can be fixed in the future.
 
 ##Installation
 * Clone this repository
