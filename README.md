@@ -1,17 +1,17 @@
 # Text Simplifier
-MHacks V 2015
+Written by Maximillian von Briesen (mobyvb), Anna Laura Davenport (annalaura), Raphael Gontijo Lopes (iRapha), and Juliet K. Benjamin (julietkb) at MHacks V in 2015
 
 ##Concept
-This Text Simplifier is a beta version of a larger idea. The idea is simple: to help improve the global literacy rates. But it is hard to implement. Half of children not attending school come from conflict-afflicted areas. So the problem becomes not to bring them to education, but bring the education to them. The obstacle is the lack of stability and access to resources. Textbooks and internet dependent programs can be pricey and impossible.
+This Text Simplifier is a beta version of a larger idea. The idea is simple: to help improve the global literacy rates. But it is hard to implement. Half of children not attending school come from conflict-afflicted areas. So the problem becomes not to bring them to education, but to bring the education to them. The obstacle is the lack of stability and access to resources. Textbooks and internet-dependent programs can be pricey and impossible.
 
 Our idea is a tool that simplifies text. The essential concept is that a child, teen, or adult can type in a subject, chose a level, and have access to an article on their level to read. Then once they understand, they can choose a harder level. The program could be universal and distributed on tablets to households.
 
 Since MHacks V is just 36 hours, what we have created is a beta version that uses the internet. Our text simplifier is a Chrome extension that edits a page and makes it easier to read by grade level. There is currently only one setting, and since our team is very new to natural language processing, it's not an incredibly drastic change. But it works.
 
 ##How it works
-The way this currently works is by using a list of english words ordered by frequency of use. Whenever it encounters a word that is not of a specific frequency or better, it replaces that word with the best fit synonym. If it cannot find a synonym that is a better fit, and it is an adjective or an adverb, it removes the word entirely since in many cases, sentences will keep their meaning regardless of these types of words.
+The way this currently works is by using a list of the 10,000 most commonly used English words, ordered by frequency of use. Whenever it encounters a word that is not of a specific frequency or better, it replaces that word with the best fit synonym that's in the list of frequently used words. If it cannot find a synonym that is a better fit, and it is an adjective or an adverb, it removes the word entirely, since in many cases, sentences will keep their meaning regardless of these types of words.
 
-This tool also has a method for finding the logical structure of a body of text using a tree and identifying prepositional phrases or sections of other patterns. This way, in the future, we can find logical chunks that can be removed or reworded for a much more flawproof way of simplifying. The problem now is efficiency, as navigating and manipulating the tree can be very slow.
+This tool also has a method for finding the grammatical structure of a body of text by using the Natural Language Toolkit (NLTK). The NLTK has a tool that tokenizes each word in a sentence and assigns a part of speech to them. We then created a program that recognizes certain combinations of POS tags and creates phrases. These phrases are then visualized as subtrees in a tree that represents a sentence. This way, in the future, we can find these subtree "chunks" that can be removed or reworded for a much more flawproof way of simplifying. The problem now is efficiency, as navigating and manipulating the tree can be very slow. [Here's](http://cl.ly/ZLFm) an exmample of a sentence being parsed into a tree based on grammatical structures using Stanford's POS tagger.
 
 ##Examples
 ###Readability changes of different articles:
