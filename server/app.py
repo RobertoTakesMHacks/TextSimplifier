@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for
-from replacecommonphrases import replace_common_phrases
+from replacecommonphrases import replace_common_phrases, replace_complex_sections
 from urllib import urlopen
 app = Flask(__name__)
 import nltk
@@ -7,6 +7,8 @@ import re
 from bs4 import BeautifulSoup
 
 paragraph = "The unicorn is a legendary animal that has been described since antiquity as a beast with a large, pointed, spiraling horn projecting from its forehead. The unicorn was depicted in ancient seals of the Indus Valley Civilization and was mentioned by the ancient Greeks in accounts of natural history by various writers, including Ctesias, Strabo, Pliny the Younger, and Aelian."
+
+app.testing = True
 
 @app.route('/', methods=['POST'])
 def handle_data():
@@ -20,7 +22,11 @@ def handle_data():
         para_text = re.sub(r' \(.*?\)|\[.*?\]', '', para_text)
         old_text += para_text + '<br><br>'
         new_text += replace_common_phrases(para_text) + '<br><br>'
-    return '<strong>New Text</strong><br><br>' + new_text + '<br><br><strong>Original Text</strong><br><br>' + old_text
+    # return u'<strong>New Text</strong><br><br>' + new_text + u'<br><br><strong>Original Text</strong><br><br>' + old_text
+    # return str(isinstance(new_text, str))
+    new_text += ("<br><br><strong>Original Text</strong><br><br>".encode('utf-8'))
+    new_text += (old_text.encode('utf-8'))
+    return new_text
 
 if __name__ == '__main__':
     app.run()

@@ -32,7 +32,7 @@ def parse(text):
     tokens = nltk.word_tokenize(text)
     # tagged = nltk.pos_tag(tokens)
     #create Stanford tagger
-    st = nltk.tag.stanford.POSTagger('english-bidirectional-distsim.tagger', 'stanford-postagger.jar')
+    st = nltk.tag.stanford.POSTagger('wsj-0-18-caseless-left3words-distsim.tagger', 'stanford-postagger.jar', 'utf-8')
     #create list of tagged words
     tagged = st.tag(tokens)
     entities = nltk.ne_chunk(tagged)
