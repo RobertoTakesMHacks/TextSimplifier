@@ -144,5 +144,5 @@ def navigate(treebank): #result is a string
 def replace_common_phrases(text):
     new_text = replace_phrases(text)
     new_text = replace_uncommon_words(new_text)
-    new_text = replace_complex_sections(new_text)
+    # new_text = replace_complex_sections(new_text)
     return new_text
